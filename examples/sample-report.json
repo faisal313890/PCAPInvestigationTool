@@ -1,0 +1,833 @@
+{
+  "tool": "PCAP Investigation Tool",
+  "version": "0.1.0",
+  "report_id": "b47acfbb-180b-42ba-a31a-21c81f4fc72f",
+  "analyzed_at_utc": "2026-10-25T13:30:13.463592+00:00",
+  "source_file": "suspicious.pcap",
+  "input_sha256": "a0858fbe9e91c47cb42eb2d122e47f070c6f888099e3bba2c11fb194976cf9af",
+  "parse_status": "decoded_profile",
+  "capture": {
+    "format": "pcap",
+    "interfaces": [
+      {
+        "id": "pcap:0",
+        "linktype": 1,
+        "snaplen": 65535,
+        "timestamp_units_per_second": 1000000
+      }
+    ],
+    "capture_errors": [],
+    "ignored_metadata_blocks": 0
+  },
+  "settings": {
+    "distinct_syn_ports": 10,
+    "syn_window_seconds": 60,
+    "nxdomain_responses": 5,
+    "nxdomain_window_seconds": 60,
+    "long_label_bytes": 50,
+    "long_name_wire_bytes": 180
+  },
+  "summary": {
+    "packet_records": 19,
+    "ip_packets": 19,
+    "directional_flows": 14,
+    "dns_packets": 7,
+    "dns_queries": 1,
+    "dns_responses": 6,
+    "review_alerts": 3,
+    "informational_observations": 0,
+    "packets_with_issues": 0,
+    "untimed_packets": 0,
+    "capture_truncated_packets": 0,
+    "captured_bytes": 1262,
+    "wire_bytes_reported": 1262,
+    "protocols": {
+      "TCP": 12,
+      "UDP": 7
+    }
+  },
+  "time_range_utc": {
+    "first": "2026-10-25T10:00:00.000000000Z",
+    "last": "2026-10-25T10:00:18.000000000Z"
+  },
+  "alerts": [
+    {
+      "rule": "PCI-001",
+      "title": "Many TCP SYN destination ports",
+      "priority": "review",
+      "scope": {
+        "interface": "pcap:0",
+        "source_ip": "192.0.2.66",
+        "destination_ip": "203.0.113.20"
+      },
+      "observed_metric": 12,
+      "threshold": 10,
+      "window_seconds": 60,
+      "packet_count": 12,
+      "frame_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "frame_references_truncated": false,
+      "first_utc": "2026-10-25T10:00:00.000000000Z",
+      "last_utc": "2026-10-25T10:00:11.000000000Z",
+      "meaning": "SYN packets without ACK reached the distinct-port threshold for one destination. This can resemble probing, but no successful connection or malicious scan was established.",
+      "suggested_action": "Check capture completeness, expected applications and administrative activity. Correlate with endpoint/application logs before drawing an incident conclusion.",
+      "id": "OBS-0001"
+    },
+    {
+      "rule": "PCI-002",
+      "title": "Repeated DNS NXDOMAIN response codes",
+      "priority": "review",
+      "scope": {
+        "interface": "pcap:0",
+        "source_ip": "198.51.100.53",
+        "destination_ip": "192.0.2.66"
+      },
+      "observed_metric": 6,
+      "threshold": 5,
+      "window_seconds": 60,
+      "packet_count": 6,
+      "frame_numbers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "frame_references_truncated": false,
+      "first_utc": "2026-10-25T10:00:12.000000000Z",
+      "last_utc": "2026-10-25T10:00:17.000000000Z",
+      "meaning": "UDP DNS responses with low-four-bit RCODE 3 reached the threshold. Typos, software retries and misconfiguration are possible; DNS answers and transaction authenticity were not verified.",
+      "suggested_action": "Check capture completeness, expected applications and administrative activity. Correlate with endpoint/application logs before drawing an incident conclusion.",
+      "id": "OBS-0002"
+    },
+    {
+      "rule": "PCI-003",
+      "title": "Long DNS question names or labels",
+      "priority": "review",
+      "scope": {
+        "interface": "pcap:0",
+        "source_ip": "192.0.2.66",
+        "destination_ip": "198.51.100.53"
+      },
+      "observed_metric": 1,
+      "threshold": 1,
+      "window_seconds": null,
+      "packet_count": 1,
+      "frame_numbers": [
+        19
+      ],
+      "frame_references_truncated": false,
+      "first_utc": "2026-10-25T10:00:18.000000000Z",
+      "last_utc": "2026-10-25T10:00:18.000000000Z",
+      "meaning": "At least one question has a label of 50+ bytes or a name of 180+ wire bytes. This is a lexical observation; CDN/service names and other legitimate uses can be long. Tunneling or exfiltration was not established.",
+      "suggested_action": "Check capture completeness, expected applications and administrative activity. Correlate with endpoint/application logs before drawing an incident conclusion.",
+      "id": "OBS-0003"
+    }
+  ],
+  "alert_counts": {
+    "PCI-001": 1,
+    "PCI-002": 1,
+    "PCI-003": 1
+  },
+  "flows": [
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "protocol": "UDP",
+      "source_port": 53,
+      "destination_port": 53000,
+      "packets": 6,
+      "captured_bytes": 486,
+      "wire_bytes_reported": 486,
+      "first_utc": "2026-10-25T10:00:12.000000000Z",
+      "last_utc": "2026-10-25T10:00:17.000000000Z",
+      "frame_examples": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "198.51.100.53",
+      "protocol": "UDP",
+      "source_port": 53000,
+      "destination_port": 53,
+      "packets": 1,
+      "captured_bytes": 128,
+      "wire_bytes_reported": 128,
+      "first_utc": "2026-10-25T10:00:18.000000000Z",
+      "last_utc": "2026-10-25T10:00:18.000000000Z",
+      "frame_examples": [
+        19
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 20,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:00.000000000Z",
+      "last_utc": "2026-10-25T10:00:00.000000000Z",
+      "frame_examples": [
+        1
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 21,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:01.000000000Z",
+      "last_utc": "2026-10-25T10:00:01.000000000Z",
+      "frame_examples": [
+        2
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 22,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:02.000000000Z",
+      "last_utc": "2026-10-25T10:00:02.000000000Z",
+      "frame_examples": [
+        3
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 23,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:03.000000000Z",
+      "last_utc": "2026-10-25T10:00:03.000000000Z",
+      "frame_examples": [
+        4
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 24,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:04.000000000Z",
+      "last_utc": "2026-10-25T10:00:04.000000000Z",
+      "frame_examples": [
+        5
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 25,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:05.000000000Z",
+      "last_utc": "2026-10-25T10:00:05.000000000Z",
+      "frame_examples": [
+        6
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 26,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:06.000000000Z",
+      "last_utc": "2026-10-25T10:00:06.000000000Z",
+      "frame_examples": [
+        7
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 27,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:07.000000000Z",
+      "last_utc": "2026-10-25T10:00:07.000000000Z",
+      "frame_examples": [
+        8
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 28,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:08.000000000Z",
+      "last_utc": "2026-10-25T10:00:08.000000000Z",
+      "frame_examples": [
+        9
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 29,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:09.000000000Z",
+      "last_utc": "2026-10-25T10:00:09.000000000Z",
+      "frame_examples": [
+        10
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 30,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:10.000000000Z",
+      "last_utc": "2026-10-25T10:00:10.000000000Z",
+      "frame_examples": [
+        11
+      ]
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "protocol": "TCP",
+      "source_port": 52000,
+      "destination_port": 31,
+      "packets": 1,
+      "captured_bytes": 54,
+      "wire_bytes_reported": 54,
+      "first_utc": "2026-10-25T10:00:11.000000000Z",
+      "last_utc": "2026-10-25T10:00:11.000000000Z",
+      "frame_examples": [
+        12
+      ]
+    }
+  ],
+  "dns_questions": [
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing0.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 13
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing1.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 14
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing2.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 15
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing3.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 16
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing4.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 17
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "question_name": "missing5.example.test",
+      "question_type": 1,
+      "is_response": true,
+      "rcode": 3,
+      "packets": 1,
+      "example_frame": 18
+    },
+    {
+      "interface": "pcap:0",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "198.51.100.53",
+      "question_name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example.test",
+      "question_type": 1,
+      "is_response": false,
+      "rcode": 0,
+      "packets": 1,
+      "example_frame": 19
+    }
+  ],
+  "packet_preview": [
+    {
+      "number": 1,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:00.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 20,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 2,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:01.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 21,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 3,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:02.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 22,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 4,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:03.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 23,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 5,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:04.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 24,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 6,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:05.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 25,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 7,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:06.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 26,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 8,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:07.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 27,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 9,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:08.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 28,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 10,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:09.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 29,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 11,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:10.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 30,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 12,
+      "wire_length": 54,
+      "captured_length": 54,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:11.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "203.0.113.20",
+      "source_port": 52000,
+      "destination_port": 31,
+      "protocol": "TCP",
+      "tcp_flags": 2,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": []
+    },
+    {
+      "number": 13,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:12.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing0.example.test"
+      ]
+    },
+    {
+      "number": 14,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:13.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing1.example.test"
+      ]
+    },
+    {
+      "number": 15,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:14.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing2.example.test"
+      ]
+    },
+    {
+      "number": 16,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:15.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing3.example.test"
+      ]
+    },
+    {
+      "number": 17,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:16.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing4.example.test"
+      ]
+    },
+    {
+      "number": 18,
+      "wire_length": 81,
+      "captured_length": 81,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:17.000000000Z",
+      "source_ip": "198.51.100.53",
+      "destination_ip": "192.0.2.66",
+      "source_port": 53,
+      "destination_port": 53000,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "missing5.example.test"
+      ]
+    },
+    {
+      "number": 19,
+      "wire_length": 128,
+      "captured_length": 128,
+      "linktype": 1,
+      "interface": "pcap:0",
+      "capture_note": "",
+      "timestamp_utc": "2026-10-25T10:00:18.000000000Z",
+      "source_ip": "192.0.2.66",
+      "destination_ip": "198.51.100.53",
+      "source_port": 53000,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "tcp_flags": null,
+      "http_method": null,
+      "issues": [],
+      "dns_questions": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example.test"
+      ]
+    }
+  ],
+  "omitted_details": {
+    "flows": 0,
+    "dns_rows": 0,
+    "packets": 0,
+    "alerts": 0,
+    "packet_diagnostics": 0
+  },
+  "diagnostics": [],
+  "issue_counts": {},
+  "warnings": [],
+  "limitations": [
+    "Review patterns are not proof of scanning, malware, DNS tunneling, exfiltration, or compromise. Legitimate diagnostics, typos, CDNs, monitoring and retransmissions can produce similar observations.",
+    "Only documented frame and packet metadata is decoded. No checksum verification, TCP session reconstruction, stream/IP-fragment reassembly, decryption, file extraction, host access, live capture or packet transmission is performed.",
+    "Flows are directional interface/IP/protocol/port groups, not authenticated connections or unique TCP sessions. Capture bytes are not application payload volume; wire lengths are unverified capture metadata.",
+    "DNS inspection covers UDP port 53 headers and up to 16 questions per packet, not answer records, EDNS extended response codes, TCP DNS, DoH or DoT. Questions and response codes are not authenticated or correlated into transactions.",
+    "IPv6 base headers with direct TCP/UDP/ICMPv6 are supported; extension headers, IP fragments, Wi-Fi, loopback and unknown linktypes are reported as incomplete rather than silently treated as decoded.",
+    "Threshold rules use timed packets only. Capture order is retained for frame references; window checks sort by recorded time. Missing interfaces, clock errors, packet loss, timestamps and duplicate/mirrored captures are not repaired or deduplicated.",
+    "No raw packet payloads, HTTP paths, headers, credentials or bodies are exported. IPs, ports, DNS question names, capture filenames and timestamps can still be sensitive. Review before sharing.",
+    "Preview: at most 200 packets; flows: 500; DNS rows: 200; alerts: 200; diagnostics: 50. Full aggregate and omitted-detail counts are reported. No alerts does not establish safety or complete traffic coverage."
+  ]
+}
